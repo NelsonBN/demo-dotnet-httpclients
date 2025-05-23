@@ -1,0 +1,18 @@
+@host = http://localhost:8080
+
+### Typed Client
+
+GET {{host}}/typed/posts
+Content-Type: application/json
+
+
+### Named Client
+
+GET {{host}}/named/posts
+Content-Type: application/json
+
+
+### Factory Client
+
+GET {{host}}/factory/posts
+Content-Type: application/json
