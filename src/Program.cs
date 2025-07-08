@@ -12,6 +12,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
+builder.Services.AddHttpClient<IDemoClient, DemoClient>((serviceProvider, client) =>
+{
+    var endpoint = serviceProvider.GetRequiredService<IConfiguration>()["DemoApiEndpoint"] ?? throw new AggregateException();
+    client.BaseAddress = new Uri(endpoint);
+});
+
 builder.Services.AddHttpClient<DemoApiClient>((serviceProvider, client) =>
 {
     var endpoint = serviceProvider.GetRequiredService<IConfiguration>()["DemoApiEndpoint"] ?? throw new AggregateException();
@@ -26,6 +32,9 @@ builder.Services.AddHttpClient("DemoApi", (serviceProvider, client) =>
 
 
 var app = builder.Build();
+
+app.MapGet("/typed-with-interface/posts", async (IDemoClient client, CancellationToken cancellationToken) =>
+    await client.GetPostsAsync(cancellationToken) ?? Enumerable.Empty<Post>());
 
 app.MapGet("/typed/posts", async (DemoApiClient client, CancellationToken cancellationToken) =>
     await client.GetPostsAsync(cancellationToken) ?? Enumerable.Empty<Post>());
@@ -46,6 +55,19 @@ app.MapGet("/factory/posts", async (IConfiguration configuration, IHttpClientFac
 await app.RunAsync();
 
 
+public interface IDemoClient
+{
+    Task<IEnumerable<Post>?> GetPostsAsync(CancellationToken cancellationToken = default);
+}
+
+public class DemoClient(HttpClient httpClient) : IDemoClient
+{
+    private readonly HttpClient _httpClient = httpClient;
+
+    public Task<IEnumerable<Post>?> GetPostsAsync(CancellationToken cancellationToken = default)
+        => _httpClient.GetFromJsonAsync<IEnumerable<Post>>("posts", cancellationToken);
+}
+
 
 public class DemoApiClient(HttpClient httpClient)
 {
@@ -53,7 +75,6 @@ public class DemoApiClient(HttpClient httpClient)
 
     public Task<IEnumerable<Post>?> GetPostsAsync(CancellationToken cancellationToken = default)
         => _httpClient.GetFromJsonAsync<IEnumerable<Post>>("posts", cancellationToken);
-
 }
 
 public class Post

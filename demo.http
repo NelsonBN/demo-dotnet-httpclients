@@ -1,5 +1,11 @@
 @host = http://localhost:8080
 
+### Typed Client with Interface
+
+GET {{host}}/typed-with-interface/posts
+Content-Type: application/json
+
+
 ### Typed Client
 
 GET {{host}}/typed/posts
