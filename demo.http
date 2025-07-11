@@ -1,5 +1,14 @@
 @host = http://localhost:8080
 
+
+############ Safe / Unsafe Calls ############
+
+GET {{host}}/posts
+
+
+############ Typed Clients ############
+
+
 ### Typed Client with Interface
 
 GET {{host}}/typed-with-interface/posts

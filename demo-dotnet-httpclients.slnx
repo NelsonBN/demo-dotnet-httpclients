@@ -1,3 +1,5 @@
 <Solution>
-  <Project Path="src/Demo.Api.csproj" />
+  <Project Path="src/Demo.UnsafeCalls/Demo.UnsafeCalls.csproj" />
+  <Project Path="src/Demo.SafeCalls/Demo.SafeCalls.csproj" />
+  <Project Path="src/Demo.ClientTypes/Demo.ClientTypes.csproj" />
 </Solution>

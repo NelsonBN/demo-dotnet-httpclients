@@ -2,10 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-
-    <RootNamespace>Demo.Api</RootNamespace>
-    <AssemblyName>Demo.Api</AssemblyName>
-
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
