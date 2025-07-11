@@ -1,4 +1,4 @@
-# .NET's HttpClient - How to Use It Correctly
+# Correctly using HttpClient in .NET
 
 
 To read about this article, please look at [this post](https://nelsonbn.com/blog/dotnet-httpclient-use-correctly).
